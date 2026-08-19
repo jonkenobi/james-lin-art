@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAMES LIN — Video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121210;
+    --fg:#f3f1ea;
+    --muted:#8f8c81;
+    --line:#2c2b26;
+    --accent:#c9c0a6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    height:100%;
+  }
+
+  /* header — identical to photo page, Video now active */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:30;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 40px;
+    mix-blend-mode:difference;
+  }
+  @media (max-width:760px){ header{padding:18px 20px;} }
+  .logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.14em;
+    text-decoration:none;
+    color:var(--fg);
+  }
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--muted);
+    padding-bottom:3px;
+    border-bottom:1px solid transparent;
+    transition:color .25s, border-color .25s;
+  }
+  nav a.active{ color:var(--fg); border-color:var(--fg); }
+  nav a:not(.active):hover{ color:var(--fg); }
+
+  /* scroll-snap reel */
+  .reel{
+    height:100svh;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+  }
+  .reel::-webkit-scrollbar{ display:none; }
+
+  .clip{
+    position:relative;
+    height:100svh;
+    width:100%;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    overflow:hidden;
+    background:#000;
+  }
+  .clip video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    box-shadow:inset 0 0 0 1px rgba(243,241,234,.3);
+  }
+
+  /* darken bottom for legibility, same language as photo hover captions */
+  .clip::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:40%;
+    background:linear-gradient(to top, rgba(0,0,0,.65), transparent);
+    pointer-events:none;
+  }
+
+  .clip .info{
+    position:absolute;
+    left:0; right:0; bottom:56px;
+    z-index:2;
+    text-align:center;
+  }
+  @media (max-width:760px){ .clip .info{ bottom:40px; } }
+  .clip .info .title{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:clamp(1.4rem, 3vw, 2.1rem);
+  }
+  .clip .info .meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    margin-top:6px;
+    letter-spacing:.04em;
+  }
+
+  /* sound toggle, per clip */
+  .mute-btn{
+    position:absolute;
+    right:24px; bottom:28px;
+    z-index:3;
+    width:40px; height:40px;
+    border-radius:50%;
+    border:1px solid rgba(243,241,234,.35);
+    background:rgba(0,0,0,.35);
+    color:var(--fg);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    backdrop-filter:blur(2px);
+  }
+  .mute-btn:hover{ border-color:var(--fg); }
+  @media (max-width:760px){ .mute-btn{ right:16px; bottom:22px; width:36px; height:36px; } }
+
+  /* right-side index rail, echoes the frame numbers on the photo page */
+  .index-rail{
+    position:fixed;
+    right:24px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:25;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    mix-blend-mode:difference;
+  }
+  .index-rail button{
+    width:6px; height:6px;
+    border-radius:50%;
+    border:none;
+    background:var(--muted);
+    cursor:pointer;
+    padding:0;
+    transition:background .25s, transform .25s;
+  }
+  .index-rail button.active{
+    background:var(--fg);
+    transform:scale(1.6);
+  }
+  @media (max-width:760px){ .index-rail{ display:none; } }
+
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">JAMES LIN</a>
+  <nav>
+    <a href="photo.html">Photo</a>
+    <a href="#" class="active">Video</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="index-rail" id="indexRail"></div>
+
+<div class="reel" id="reel">
+
+  <section class="clip" data-title="Animation Reel" data-meta="2026">
+    <video src="videos/AnimationReel_JamesLin2026.mov" muted loop playsinline preload="metadata"></video>
+    <div class="info">
+      <div class="title">Animation Reel</div>
+      <div class="meta">2026</div>
+    </div>
+    <button class="mute-btn" aria-label="Toggle sound">🔇</button>
+  </section>
+
+  <section class="clip" data-title="Iceland" data-meta="">
+    <video src="videos/icelandyoutueb.mp4" muted loop playsinline preload="metadata"></video>
+    <div class="info">
+      <div class="title">Iceland</div>
+    </div>
+    <button class="mute-btn" aria-label="Toggle sound">🔇</button>
+  </section>
+
+</div>
+
+<script>
+  const reel = document.getElementById('reel');
+  const clips = Array.from(document.querySelectorAll('.clip'));
+  const rail = document.getElementById('indexRail');
+
+  // build index dots, click to jump — same idea as film frame numbers
+  clips.forEach((clip, i) => {
+    const dot = document.createElement('button');
+    dot.setAttribute('aria-label', 'Go to ' + clip.dataset.title);
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => clip.scrollIntoView({behavior:'smooth'}));
+    rail.appendChild(dot);
+  });
+  const dots = Array.from(rail.children);
+
+  // play/pause based on visibility so only the on-screen video is decoding
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target.querySelector('video');
+      const i = clips.indexOf(entry.target);
+      if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+        dots.forEach(d => d.classList.remove('active'));
+        if (dots[i]) dots[i].classList.add('active');
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: [0, 0.6, 1] });
+
+  clips.forEach(clip => observer.observe(clip));
+
+  // per-clip mute toggle
+  document.querySelectorAll('.mute-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const video = btn.closest('.clip').querySelector('video');
+      video.muted = !video.muted;
+      btn.textContent = video.muted ? '🔇' : '🔊';
+    });
+  });
+</script>
+
+</body>
+</html>

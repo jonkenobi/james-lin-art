@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAMES LIN — Photo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121210;
+    --fg:#f3f1ea;
+    --muted:#8f8c81;
+    --line:#2c2b26;
+    --accent:#c9c0a6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    height:100%;
+  }
+
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:30;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 40px;
+    mix-blend-mode:difference;
+  }
+  @media (max-width:760px){ header{padding:18px 20px;} }
+  .logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.14em;
+    text-decoration:none;
+    color:var(--fg);
+  }
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--muted);
+    padding-bottom:3px;
+    border-bottom:1px solid transparent;
+    transition:color .25s, border-color .25s;
+  }
+  nav a.active{ color:var(--fg); border-color:var(--fg); }
+  nav a:not(.active):hover{ color:var(--fg); }
+
+  /* scroll-snap reel, same pattern as the video page */
+  .reel{
+    height:100svh;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+  }
+  .reel::-webkit-scrollbar{ display:none; }
+
+  .shot{
+    position:relative;
+    height:100svh;
+    width:100%;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    overflow:hidden;
+    background:#000;
+  }
+  .shot img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    box-shadow:inset 0 0 0 1px rgba(243,241,234,.3);
+  }
+
+  /* darken bottom for legibility, same language as the video page */
+  .shot::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:40%;
+    background:linear-gradient(to top, rgba(0,0,0,.65), transparent);
+    pointer-events:none;
+  }
+
+  .shot .info{
+    position:absolute;
+    left:0; right:0; bottom:56px;
+    z-index:2;
+    text-align:center;
+  }
+  @media (max-width:760px){ .shot .info{ bottom:40px; } }
+  .shot .info .title{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:clamp(1.4rem, 3vw, 2.1rem);
+  }
+  .shot .info .meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    margin-top:6px;
+    letter-spacing:.04em;
+  }
+
+  /* right-side index rail, same as video page */
+  .index-rail{
+    position:fixed;
+    right:24px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:25;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    mix-blend-mode:difference;
+  }
+  .index-rail button{
+    width:6px; height:6px;
+    border-radius:50%;
+    border:none;
+    background:var(--muted);
+    cursor:pointer;
+    padding:0;
+    transition:background .25s, transform .25s;
+  }
+  .index-rail button.active{
+    background:var(--fg);
+    transform:scale(1.6);
+  }
+  @media (max-width:760px){ .index-rail{ display:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">JAMES LIN</a>
+  <nav>
+    <a href="#" class="active">Photo</a>
+    <a href="video.html">Video</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="index-rail" id="indexRail"></div>
+
+<div class="reel" id="reel">
+
+  <section class="shot" data-title="Liberty Crossing" data-meta="New York, NY">
+    <img src="photos/anmorphic3.jpg" alt="Liberty Crossing, New York, NY" loading="lazy">
+    <div class="info">
+      <div class="title">Liberty Crossing</div>
+      <div class="meta">New York, NY</div>
+    </div>
+  </section>
+
+  <section class="shot" data-title="Air" data-meta="New York, NY">
+    <img src="photos/anmorphic4.jpg" alt="Air, New York, NY" loading="lazy">
+    <div class="info">
+      <div class="title">Air</div>
+      <div class="meta">New York, NY</div>
+    </div>
+  </section>
+
+  <section class="shot" data-title="Skyline" data-meta="New York, NY">
+    <img src="photos/DSC00401.jpg" alt="Skyline, New York, NY" loading="lazy">
+    <div class="info">
+      <div class="title">Skyline</div>
+      <div class="meta">New York, NY</div>
+    </div>
+  </section>
+
+  <section class="shot" data-title="Dusk">
+    <img src="photos/DSC08226.jpg" alt="Dusk" loading="lazy">
+    <div class="info">
+      <div class="title">Dusk</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const shots = Array.from(document.querySelectorAll('.shot'));
+  const rail = document.getElementById('indexRail');
+
+  shots.forEach((shot, i) => {
+    const dot = document.createElement('button');
+    dot.setAttribute('aria-label', 'Go to ' + shot.dataset.title);
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => shot.scrollIntoView({behavior:'smooth'}));
+    rail.appendChild(dot);
+  });
+  const dots = Array.from(rail.children);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const i = shots.indexOf(entry.target);
+      if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+        dots.forEach(d => d.classList.remove('active'));
+        if (dots[i]) dots[i].classList.add('active');
+      }
+    });
+  }, { threshold: [0, 0.6, 1] });
+
+  shots.forEach(shot => observer.observe(shot));
+</script>
+
+</body>
+</html>
