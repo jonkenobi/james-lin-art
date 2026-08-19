@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAMES LIN — Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#121210;
+--fg:#f3f1ea;
+--muted:#8f8c81;
+--line:#2c2b26;
+--accent:#c9c0a6;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+height:100%;
+background:var(--bg);
+color:var(--fg);
+font-family:'IBM Plex Mono',monospace;
+-webkit-font-smoothing:antialiased;
+}
+header{
+position:fixed;
+top:0; left:0; right:0;
+z-index:20;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:22px 40px;
+mix-blend-mode:difference;
+}
+@media (max-width:760px){ header{padding:18px 20px;} }
+.logo{
+font-family:'Space Grotesk',sans-serif;
+font-weight:700;
+font-size:15px;
+letter-spacing:.14em;
+text-decoration:none;
+color:var(--fg);
+}
+header nav{display:flex; gap:28px; align-items:center;}
+header nav a{
+font-family:'IBM Plex Mono',monospace;
+font-size:11px;
+letter-spacing:.08em;
+text-transform:uppercase;
+text-decoration:none;
+color:var(--muted);
+padding-bottom:3px;
+border-bottom:1px solid transparent;
+transition:color .25s, border-color .25s;
+}
+header nav a.active{ color:var(--fg); border-color:var(--fg); }
+header nav a:not(.active):hover{ color:var(--fg); }
+</style>
+</head>
+<body>
+
+<header>
+<a href="index.html" class="logo">JAMES LIN</a>
+<nav>
+<a href="photo.html">Photo</a>
+<a href="video.html">Video</a>
+<a href="#" class="active">Art</a>
+<a href="about.html">About</a>
+</nav>
+</header>
+
+</body>
+</html>
