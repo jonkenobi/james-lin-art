@@ -37,7 +37,7 @@ async function uploadLargeFile(filePath, bucket, key) {
 }
 
 uploadLargeFile(
-  "/path/to/AnimationReel_JamesLin2026.mov",
-  "videos",
-  "AnimationReel_JamesLin2026.mov"
+  "/path/to/AnimationReel_JamesLin2026.mov", //src file 
+  "videos",  // bucket name
+  "AnimationReel_JamesLin2026.mov"  // target file name
 );
