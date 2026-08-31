@@ -1,7 +1,6 @@
 /**
  * Album + photo data. Order = display order. `photos` order = grid/lightbox
  * order. `include:false` = hide album. `cover` = main-page pic.
- * TODO Iceland: no MAIN PAGE.jpg in bucket -> picked stand-in below.
  */
 
 const R2_BASE = "https://pub-5a148723b7864053a58c9f6ade65f125.r2.dev";
@@ -21,7 +20,7 @@ const ALBUMS = [
     subtitle: "",
     priority: 1,
     include: true,
-    cover: url("1 ICELAND PHOTOS", "DSC09890.jpg"), // no MAIN PAGE.jpg yet
+    cover: url("1 ICELAND PHOTOS", "DJI_20260518085832_0288_D.jpg"), 
     photos: photos("1 ICELAND PHOTOS", [
       "DJI_20260516033039_0036_D.jpg",
       "DJI_20260516054204_0068_D.jpg",
