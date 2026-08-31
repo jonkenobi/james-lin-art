@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAMES LIN — Photo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="photos-data.js" defer></script>
+<script src="album-view.js" defer></script>
+<style>
+  :root{
+    --bg:#121210;
+    --fg:#f3f1ea;
+    --muted:#8f8c81;
+    --line:#2c2b26;
+    --accent:#c9c0a6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100%;
+  }
+
+  header{
+    position:sticky;
+    top:0;
+    z-index:30;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 40px;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  @media (max-width:760px){ header{padding:18px 20px;} }
+  .logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.14em;
+    text-decoration:none;
+    color:var(--fg);
+  }
+  nav{display:flex; gap:28px; align-items:center;}
+  nav a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--muted);
+    padding-bottom:3px;
+    border-bottom:1px solid transparent;
+    transition:color .25s, border-color .25s;
+  }
+  nav a.active{ color:var(--fg); border-color:var(--fg); }
+  nav a:not(.active):hover{ color:var(--fg); }
+
+  main{
+    max-width:1040px;
+    margin:0 auto;
+    padding:32px 24px 96px;
+  }
+  @media (max-width:760px){ main{ padding:20px 14px 64px; } }
+
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-decoration:none;
+    margin-bottom:28px;
+  }
+  .back-link:hover{ color:var(--fg); }
+
+  .album-heading{
+    margin-bottom:32px;
+  }
+  .album-heading .title{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:clamp(1.6rem, 4vw, 2.2rem);
+  }
+  .album-heading .subtitle{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+    margin-top:6px;
+  }
+
+  .masonry{
+    display:flex;
+    gap:20px;
+  }
+  @media (max-width:600px){ .masonry{ gap:10px; } }
+  .masonry-col{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  @media (max-width:600px){ .masonry-col{ gap:10px; } }
+
+  .grid-photo{
+    width:100%;
+    display:block;
+    cursor:pointer;
+    box-shadow:inset 0 0 0 1px rgba(243,241,234,.12);
+  }
+  .grid-photo img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+
+  /* Lightbox */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(10,10,9,.96);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    touch-action:pan-y;
+  }
+  .lightbox.open{ display:flex; }
+
+  .lightbox-stage{
+    position:relative;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .lightbox img{
+    max-width:92vw;
+    max-height:88vh;
+    object-fit:contain;
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+
+  .lightbox-close{
+    position:absolute;
+    top:20px;
+    right:24px;
+    width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+    border:none;
+    color:var(--fg);
+    font-size:22px;
+    line-height:1;
+    cursor:pointer;
+    z-index:2;
+  }
+  .lightbox-nav{
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:15%;
+    min-width:56px;
+    display:flex;
+    align-items:center;
+    background:transparent;
+    border:none;
+    color:var(--fg);
+    font-size:28px;
+    cursor:pointer;
+    opacity:.55;
+    transition:opacity .2s;
+  }
+  .lightbox-nav:hover{ opacity:1; }
+  .lightbox-nav.prev{ left:0; justify-content:flex-start; padding-left:14px; }
+  .lightbox-nav.next{ right:0; justify-content:flex-end; padding-right:14px; }
+  @media (max-width:600px){
+    .lightbox-nav{ display:none; } /* mobile relies on swipe, not tap zones */
+  }
+
+  .lightbox-counter{
+    position:absolute;
+    bottom:22px;
+    left:0;
+    right:0;
+    text-align:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:.04em;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">JAMES LIN</a>
+  <nav>
+    <a href="photo.html" class="active">Photo</a>
+    <a href="video.html">Video</a>
+    <a href="art.html">Art</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main>
+  <a href="photo.html" class="back-link">&larr; Albums</a>
+  <div class="album-heading" id="albumHeading"></div>
+  <div class="masonry" id="masonry">
+    <div class="masonry-col" id="colLeft"></div>
+    <div class="masonry-col" id="colRight"></div>
+  </div>
+</main>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lightbox-stage">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous photo">&#8249;</button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav next" id="lightboxNext" aria-label="Next photo">&#8250;</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+</div>
+
+</body>
+</html>
