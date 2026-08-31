@@ -207,19 +207,7 @@ required.
 - Bio is plain paragraphs in `.bio` — no special markup needed, just keep
   it to a few short paragraphs.
 
-## Current content status
 
-- `photo.html` / `album.html` — rebuilt around albums (list stays a
-  full-bleed reel, grid + lightbox only inside an album); `photos-data.js`
-  currently has 7 album placeholders (`iceland` + 6 stubs) with
-  placeholder image paths — none of the real image files exist on disk
-  yet, so covers/photos will 404 until real files are dropped in.
-- `video.html` — 2 real videos in place (Animation Reel, Iceland).
-- `index.html` — background loop set to the animation reel.
-- `about.html` — real portrait in place; bio paragraphs are still
-  placeholder text, clearly marked, meant to be swapped for real
-  background/focus/work.
-- Contact footer (`about.html`) has placeholder email/phone/socials.
 
 ## Open decisions / not yet built
 
@@ -229,5 +217,11 @@ required.
 - No pinch-to-zoom in the lightbox — swipe-to-navigate and tap-backdrop-
   to-close only, matching the "don't make it tedious to click through"
   brief. Revisit if James wants zoom.
-- Real album covers are needed from James for every album beyond
-  Iceland — ask before launch.
+
+
+## Cli command 
+
+- For getting list of objects in R2 bucket 
+curl https://api.cloudflare.com/client/v4/accounts/de91f371fdad2a3f5568760ea834e19d/r2/buckets/images/objects?per_page=1000 \
+    -H "Authorization: Bearer $token$"
+  Then just tell an AI to extract the "key" value, which is the name of the images, for use. 

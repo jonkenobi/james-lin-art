@@ -1,41 +1,17 @@
 /**
- * Album + photo data for the Photo section.
- *
- * HOW TO USE THIS FILE (for James / whoever maintains the site)
- * ---------------------------------------------------------------
- * - Each object in ALBUMS is one album. Order in this array = display
- *   order on the album grid (photo.html), so drag an object up/down in
- *   this list to reorder albums.
- * - Within an album, the `photos` array order = display order in the
- *   album grid AND lightbox. Reorder photos by reordering this array.
- * - `priority` is just documentation of upload priority (1 = do first).
- *   It doesn't drive anything in code — the array order does. Keep it
- *   here so it's easy to remember which albums matter most if storage
- *   ever gets tight.
- * - `include: false` fully hides an album from the site (grid + direct
- *   link) without deleting its data — use this if storage size forces
- *   cutting an album, so it's easy to switch back on later.
- * - `cover` is the "main page" photo James picks per album. If it's
- *   missing, the first photo in `photos` is used as a fallback — but
- *   ask James for a real cover pick rather than relying on that.
- * - Title is location-only ("Iceland"). `subtitle` is optional, free
- *   text James can add later (e.g. a date range or a short line).
- *
- * ---------------------------------------------------------------
-
+ * Album + photo data. Order = display order. `photos` order = grid/lightbox
+ * order. `include:false` = hide album. `cover` = main-page pic.
+ * TODO Iceland: no MAIN PAGE.jpg in bucket -> picked stand-in below.
  */
 
-const SAMPLE_PHOTOS = [
-  { src: "https://pub-5a148723b7864053a58c9f6ade65f125.r2.dev/1%20ICELAND%20PHOTOS/DSC09890.jpg", alt: "Iceland" },
-  { src: "https://pub-5a148723b7864053a58c9f6ade65f125.r2.dev/2%20JAPAN%20PHOTOS/MAIN%20PAGE.jpg", alt: "Japan" },
-  { src: "https://pub-5a148723b7864053a58c9f6ade65f125.r2.dev/3%20NEW%20YORK%20PHOTOS/MAIN%20PAGE.jpg", alt: "New York" },
-  { src: "https://pub-5a148723b7864053a58c9f6ade65f125.r2.dev/4%20CHICAGO%20PHOTOS/MAIN%20PAGE.jpg", alt: "Chicago" },
-  { src: "https://pub-5a148723b7864053a58c9f6ade65f125.r2.dev/5%20TAIWAN%20PHOTOS/MAIN%20PAGE.jpg", alt: "Taiwan" },
-  { src: "https://pub-5a148723b7864053a58c9f6ade65f125.r2.dev/6%20HAWAII%20PHOTOS/MAIN%20PAGE.jpg", alt: "Hawaii" }
-];
+const R2_BASE = "https://pub-5a148723b7864053a58c9f6ade65f125.r2.dev";
 
-function samplePhoto(i) {
-  return SAMPLE_PHOTOS[i % SAMPLE_PHOTOS.length];
+function url(folder, file) {
+  return `${R2_BASE}/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`;
+}
+
+function photos(folder, files, alt) {
+  return files.map(f => ({ src: url(folder, f), alt }));
 }
 
 const ALBUMS = [
@@ -45,11 +21,32 @@ const ALBUMS = [
     subtitle: "",
     priority: 1,
     include: true,
-    cover: samplePhoto(0).src,
-    photos: [
-      samplePhoto(0), samplePhoto(1), samplePhoto(2),
-      samplePhoto(3), samplePhoto(0), samplePhoto(1)
-    ]
+    cover: url("1 ICELAND PHOTOS", "DSC09890.jpg"), // no MAIN PAGE.jpg yet
+    photos: photos("1 ICELAND PHOTOS", [
+      "DJI_20260516033039_0036_D.jpg",
+      "DJI_20260516054204_0068_D.jpg",
+      "DJI_20260516092054_0094_D.jpg",
+      "DJI_20260518085615_0260_D.jpg",
+      "DJI_20260518085626_0261_D.jpg",
+      "DJI_20260518085832_0288_D.jpg",
+      "DJI_20260518085909_0295_D.jpg",
+      "DSC09417.jpg",
+      "DSC09430.jpg",
+      "DSC09466.jpg",
+      "DSC09473.jpg",
+      "DSC09511.jpg",
+      "DSC09603.jpg",
+      "DSC09608.jpg",
+      "DSC09623.jpg",
+      "DSC09640.jpg",
+      "DSC0965nobg9.jpg",
+      "DSC09665.jpg",
+      "DSC09705.jpg",
+      "DSC09757.jpg",
+      "DSC09890.jpg",
+      "DSC09955.jpg",
+      "DSC09989.jpg"
+    ], "Iceland")
   },
   {
     id: "japan",
@@ -57,55 +54,173 @@ const ALBUMS = [
     subtitle: "",
     priority: 2,
     include: true,
-    cover: samplePhoto(1).src,
-    photos: [samplePhoto(1), samplePhoto(2)]
+    cover: url("2 JAPAN PHOTOS", "MAIN PAGE.jpg"),
+    photos: photos("2 JAPAN PHOTOS", [
+      "DSC00695.jpg",
+      "DSC02159.jpg",
+      "DSC02228.jpg",
+      "DSC02242.jpg",
+      "DSC02326-3.jpg",
+      "DSC07269.jpg",
+      "DSC07357.jpg",
+      "DSC07588.jpg",
+      "DSC07593.jpg",
+      "DSC07717.jpg",
+      "DSC07865.jpg",
+      "DSC07919.jpg",
+      "DSC07990.jpg",
+      "DSC08005.jpg",
+      "DSC08056.jpg",
+      "DSC08111.jpg",
+      "DSC08226.jpg",
+      "DSC08305.jpg",
+      "DSC08309.jpg",
+      "DSC08334.jpg"
+    ], "Japan")
   },
   {
-    id: "album-3",
+    id: "new-york",
     title: "New York",
     subtitle: "",
     priority: 3,
     include: true,
-    cover: samplePhoto(2).src,
-    photos: [samplePhoto(2), samplePhoto(3)]
+    cover: url("3 NEW YORK PHOTOS", "MAIN PAGE.jpg"),
+    photos: photos("3 NEW YORK PHOTOS", [
+      "DSC00229.jpg",
+      "DSC00329.jpg",
+      "DSC00401.jpg",
+      "DSC00528.jpg",
+      "DSC00692s.jpg",
+      "DSC00709.jpg",
+      "DSC00716.jpg",
+      "DSC00790.jpg",
+      "DSC00854.jpg",
+      "DSC00883.jpg",
+      "DSC00950.jpg",
+      "anmorphic1.jpg",
+      "anmorphic4.jpg"
+    ], "New York")
   },
   {
-    id: "album-4",
+    id: "chicago",
     title: "Chicago",
     subtitle: "",
     priority: 4,
     include: true,
-    cover: samplePhoto(3).src,
-    photos: [samplePhoto(3)]
+    cover: url("4 CHICAGO PHOTOS", "MAIN PAGE.jpg"),
+    photos: photos("4 CHICAGO PHOTOS", [
+      "DSC01203.jpeg",
+      "DSC01223-3.jpeg",
+      "DSC01228.jpeg",
+      "DSC01237.jpeg",
+      "DSC05096-2.jpg",
+      "DSC05211.jpg",
+      "DSC05212.jpg",
+      "DSC05333.jpg",
+      "DSC05343.jpg",
+      "DSC05355.jpg",
+      "DSC05375.jpg",
+      "DSC05401-2.jpg",
+      "DSC05401-3.jpg",
+      "DSC05401.jpg",
+      "DSC05420-2.jpg",
+      "DSC05420.jpg",
+      "DSC05421-2.jpg",
+      "DSC05421.jpg",
+      "DSC05626.jpg",
+      "DSC05827.jpg",
+      "DSC05934-2.jpg",
+      "DSC05934.jpg",
+      "DSC06067.jpg",
+      "DSC06190.jpg",
+      "DSC06214-2.jpg",
+      "DSC06227.jpg",
+      "DSC06351.jpg",
+      "DSC06394.jpg",
+      "DSC06422.jpg",
+      "DSC06423.jpg",
+      "DSC06472.jpg",
+      "DSC06561.jpg",
+      "DSC06620.jpg",
+      "DSC06635.jpg",
+      "DSC06659.jpg",
+      "DSC06662.jpg",
+      "DSC06670.jpg",
+      "DSC06680.jpg",
+      "DSC06703.jpg",
+      "DSC06729.jpg",
+      "DSC06730.jpg",
+      "DSC06735.jpg",
+      "DSC06741.jpg",
+      "DSC06779.jpg",
+      "DSC06807.jpg",
+      "DSC07022.jpg"
+    ], "Chicago")
   },
   {
-    id: "album-5",
+    id: "taiwan",
     title: "Taiwan",
     subtitle: "",
     priority: 5,
     include: true,
-    cover: samplePhoto(4).src,
-    photos: [samplePhoto(4)]
+    cover: url("5 TAIWAN PHOTOS", "MAIN PAGE.jpg"),
+    photos: photos("5 TAIWAN PHOTOS", [
+      "DSC01187.jpg",
+      "DSC01369.jpg",
+      "DSC01447.jpg",
+      "DSC01612.jpg",
+      "DSC01864.jpg",
+      "DSC08502.jpg",
+      "DSC09032.jpeg",
+      "DSC09075.jpg",
+      "DSC09090.jpg",
+      "DSC09119.jpg",
+      "DSC09361.jpg",
+      "DSC09374.jpg"
+    ], "Taiwan")
   },
   {
-    id: "album-6",
+    id: "hawaii",
     title: "Hawaii",
     subtitle: "",
     priority: 6,
-    // Example of an album excluded for storage reasons — flip to true
-    // once there's room, no need to delete the entry.
     include: true,
-    cover: samplePhoto(5).src,
-    photos: [samplePhoto(5)]
+    cover: url("6 HAWAII PHOTOS", "MAIN PAGE.jpg"),
+    photos: photos("6 HAWAII PHOTOS", [
+      "DSC03985.jpg",
+      "DSC04010.jpg",
+      "DSC04083.jpg",
+      "DSC04179.jpg",
+      "DSC04609.jpg",
+      "DSC04623.jpg",
+      "DSC04660.jpg",
+      "DSC04699.jpg",
+      "DSC04729.jpg"
+    ], "Hawaii")
   },
   {
-    id: "album-7",
+    id: "others",
     title: "Others",
     subtitle: "",
-    priority: 7,
+    priority: 9,
     include: true,
-    cover: samplePhoto(6).src,
-    photos: [samplePhoto(6)]
+    cover: url("9 OTHERS", "MAINPAGE.jpg"),
+    photos: photos("9 OTHERS", [
+      "2.jpg",
+      "DSC01751.jpg",
+      "DSC01813.jpg",
+      "DSC03289.jpg",
+      "DSC03318.jpg",
+      "DSC04972-2.jpg",
+      "DSC04985.jpg",
+      "DSC06609.jpg",
+      "DSC06633.jpg",
+      "DSC06639.jpg",
+      "DSC07967.jpg",
+      "DSC08294.jpg",
+      "DSC08398.jpg",
+      "DSC09910.jpg"
+    ], "Others")
   }
 ];
 
