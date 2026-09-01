@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="art-data.js" defer></script>
+<script src="art-view.js" defer></script>
 <style>
 :root{
 --bg:#121210;
@@ -56,6 +58,178 @@ transition:color .25s, border-color .25s;
 }
 header nav a.active{ color:var(--fg); border-color:var(--fg); }
 header nav a:not(.active):hover{ color:var(--fg); }
+
+/* Manual row/column layout, matching layout mockup.
+   A row holds 1+ columns side by side; a column stacks 1+ images.
+   Every image keeps its natural aspect ratio — no cropping. */
+main{
+padding-top:70px;
+}
+.art-rows{
+padding:0 4px 4px;
+}
+.art-row{
+display:flex;
+gap:4px;
+margin-bottom:4px;
+}
+.art-col{
+display:flex;
+flex-direction:column;
+gap:4px;
+flex:1;
+min-width:0;
+}
+.art-tile{
+cursor:pointer;
+overflow:hidden;
+}
+.art-tile img{
+width:100%;
+height:auto;
+display:block;
+transition:transform .4s ease;
+}
+.art-tile:hover img{
+transform:scale(1.02);
+}
+
+/* Bottom video — same full-bleed clip treatment as video.html */
+.art-video{
+position:relative;
+width:100%;
+height:100svh;
+overflow:hidden;
+background:#000;
+margin-top:4px;
+}
+.art-video video{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+box-shadow:inset 0 0 0 1px rgba(243,241,234,.3);
+}
+.art-video::after{
+content:"";
+position:absolute;
+left:0; right:0; bottom:0;
+height:40%;
+background:linear-gradient(to top, rgba(0,0,0,.65), transparent);
+pointer-events:none;
+}
+.art-video .info{
+position:absolute;
+left:0; right:0; bottom:56px;
+z-index:2;
+text-align:center;
+}
+@media (max-width:760px){ .art-video .info{ bottom:40px; } }
+.art-video .info .title{
+font-family:'Space Grotesk',sans-serif;
+font-weight:500;
+font-size:clamp(1.4rem, 3vw, 2.1rem);
+}
+.art-video .mute-btn{
+position:absolute;
+right:24px; bottom:28px;
+z-index:3;
+width:40px; height:40px;
+border-radius:50%;
+border:1px solid rgba(243,241,234,.35);
+background:rgba(0,0,0,.35);
+color:var(--fg);
+font-family:'IBM Plex Mono',monospace;
+font-size:13px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+backdrop-filter:blur(2px);
+}
+.art-video .mute-btn:hover{ border-color:var(--fg); }
+@media (max-width:760px){ .art-video .mute-btn{ right:16px; bottom:22px; width:36px; height:36px; } }
+
+/* Lightbox */
+.lightbox{
+position:fixed;
+inset:0;
+z-index:100;
+background:rgba(10,10,9,.96);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+display:none;
+align-items:center;
+justify-content:center;
+touch-action:pan-y;
+}
+.lightbox.open{ display:flex; }
+.lightbox-stage{
+position:relative;
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.lightbox img{
+max-width:92vw;
+max-height:88vh;
+object-fit:contain;
+user-select:none;
+-webkit-user-drag:none;
+}
+.lightbox-close{
+position:absolute;
+top:20px;
+right:24px;
+width:36px;
+height:36px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:transparent;
+border:none;
+color:var(--fg);
+font-size:22px;
+line-height:1;
+cursor:pointer;
+z-index:2;
+}
+.lightbox-nav{
+position:absolute;
+top:0;
+bottom:0;
+width:15%;
+min-width:56px;
+display:flex;
+align-items:center;
+background:transparent;
+border:none;
+color:var(--fg);
+font-size:28px;
+cursor:pointer;
+opacity:.55;
+transition:opacity .2s;
+}
+.lightbox-nav:hover{ opacity:1; }
+.lightbox-nav.prev{ left:0; justify-content:flex-start; padding-left:14px; }
+.lightbox-nav.next{ right:0; justify-content:flex-end; padding-right:14px; }
+@media (max-width:600px){
+.lightbox-nav{ display:none; }
+}
+.lightbox-counter{
+position:absolute;
+bottom:22px;
+left:0;
+right:0;
+text-align:center;
+font-family:'IBM Plex Mono',monospace;
+font-size:11px;
+color:var(--muted);
+letter-spacing:.04em;
+}
 </style>
 </head>
 <body>
@@ -69,6 +243,28 @@ header nav a:not(.active):hover{ color:var(--fg); }
 <a href="about.html">About</a>
 </nav>
 </header>
+
+<main>
+  <div class="art-rows" id="artRows"></div>
+
+  <section class="art-video" id="artVideo">
+    <video id="artVideoEl" src="https://pub-ef7ebd14b56d4175889bbc88a95dcb1e.r2.dev/Sequence%2003.mp4" muted loop playsinline preload="metadata"></video>
+    <div class="info">
+      <div class="title">Sequence 03</div>
+    </div>
+    <button class="mute-btn" id="artVideoMute" aria-label="Toggle sound">🔇</button>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lightbox-stage">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous">&#8249;</button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav next" id="lightboxNext" aria-label="Next">&#8250;</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+</div>
 
 </body>
 </html>
