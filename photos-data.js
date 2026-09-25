@@ -207,7 +207,7 @@ const ALBUMS = [
     priority: 9,
     include: true,
     cover: url("9 OTHERS", "MAINPAGE.jpg"),
-    coverFocus: "45% 55%", // TWICE
+    coverFocus: "38% 55%", // TWICE
     photos: photos("9 OTHERS", [
       "2.jpg",
       "DSC01751.jpg",
