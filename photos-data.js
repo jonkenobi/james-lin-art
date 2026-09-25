@@ -1,6 +1,8 @@
 /**
  * Album + photo data. Order = display order. `photos` order = grid/lightbox
  * order. `include:false` = hide album. `cover` = main-page pic.
+ * `coverFocus` = part of the cover to keep when the screen crops it
+ * (mobile only, <=760px): CSS object-position "x% y%", default "50% 50%".
  */
 
 const R2_BASE = "https://pub-5a148723b7864053a58c9f6ade65f125.r2.dev";
@@ -54,6 +56,7 @@ const ALBUMS = [
     priority: 2,
     include: true,
     cover: url("2 JAPAN PHOTOS", "MAIN PAGE.jpg"),
+    coverFocus: "83% 50%", // Tokyo Tower
     photos: photos("2 JAPAN PHOTOS", [
       "DSC00695.jpg",
       "DSC02159.jpg",
@@ -204,6 +207,7 @@ const ALBUMS = [
     priority: 9,
     include: true,
     cover: url("9 OTHERS", "MAINPAGE.jpg"),
+    coverFocus: "45% 55%", // TWICE
     photos: photos("9 OTHERS", [
       "2.jpg",
       "DSC01751.jpg",

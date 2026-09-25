@@ -113,6 +113,8 @@
     text-align:center;
   }
   @media (max-width:760px){ .shot .info{ bottom:40px; } }
+  /* mobile only: keep cover's focus point (coverFocus in photos-data.js) in frame */
+  @media (max-width:760px){ .shot img{ object-position:var(--focus, 50% 50%); } }
   .shot .info .title{
     font-family:'Space Grotesk',sans-serif;
     font-weight:500;

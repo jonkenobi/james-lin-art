@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     shot.dataset.meta = album.subtitle || '';
 
     shot.innerHTML = `
-      <img src="${cover}" alt="${album.title}" loading="lazy">
+      <img src="${cover}" alt="${album.title}" loading="lazy"${album.coverFocus ? ` style="--focus:${album.coverFocus}"` : ""}>
       <div class="info">
         <div class="title">${album.title}</div>
         ${album.subtitle ? `<div class="meta">${album.subtitle}</div>` : ''}
