@@ -26,7 +26,6 @@ const ALBUMS = [
     photos: photos("1 ICELAND PHOTOS", [
       "DJI_20260516033039_0036_D.jpg",
       "DSC09640.jpg",
-      "DJI_20260516054204_0068_D.jpg",
       "DJI_20260516092054_0094_D.jpg",
       "DJI_20260518085615_0260_D.jpg",
       "DJI_20260518085626_0261_D.jpg",
