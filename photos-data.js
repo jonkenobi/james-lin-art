@@ -25,6 +25,7 @@ const ALBUMS = [
     cover: url("1 ICELAND PHOTOS", "DJI_20260518085832_0288_D.jpg"), 
     photos: photos("1 ICELAND PHOTOS", [
       "DJI_20260516033039_0036_D.jpg",
+      "DSC09640.jpg",
       "DJI_20260516054204_0068_D.jpg",
       "DJI_20260516092054_0094_D.jpg",
       "DJI_20260518085615_0260_D.jpg",
@@ -39,7 +40,7 @@ const ALBUMS = [
       "DSC09603.jpg",
       "DSC09608.jpg",
       "DSC09623.jpg",
-      "DSC09640.jpg",
+      "DJI_20260516054204_0068_D.jpg",
       "DSC0965nobg9.jpg",
       "DSC09665.jpg",
       "DSC09705.jpg",
