@@ -56,7 +56,7 @@ const ALBUMS = [
     priority: 2,
     include: true,
     cover: url("2 JAPAN PHOTOS", "MAIN PAGE.jpg"),
-    coverFocus: "87.8% 50%", // Tokyo Tower
+    coverFocus: "87.5% 50%", // Tokyo Tower
     photos: photos("2 JAPAN PHOTOS", [
       "DSC00695.jpg",
       "DSC02159.jpg",
